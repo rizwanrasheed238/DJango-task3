@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Doctor Panel</title>
+    <!-- plugins:css -->
+    <link
+      rel="stylesheet"
+      href="{% static 'seller/vendors/simple-line-icons/css/simple-line-icons.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'seller/vendors/flag-icon-css/css/flag-icon.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'seller/vendors/css/vendor.bundle.base.css' %}"
+    />
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link
+      rel="stylesheet"
+      href="{% static 'seller/vendors/daterangepicker/daterangepicker.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'seller/vendors/chartist/chartist.min.css' %}"
+    />
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'seller/css/style.css' %}" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static 'seller/images/favicon.png' %}" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav
+        class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
+      >
+        <div class="navbar-brand-wrapper d-flex align-items-center">
+          <a class="navbar-brand brand-logo" href="seller/index.html">
+
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static 'seller/images/logo-mini.svg' %}" alt="logo"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+          <h5 class="mb-0 font-weight-medium d-none d-lg-flex">
+            Welcome to Doctor dashboard!
+          </h5>
+          <ul class="navbar-nav navbar-nav-right ml-auto">
+            <form class="search-form d-none d-md-block" action="POST">
+              {% csrf_token %}
+              <i class="icon-magnifier"></i>
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Search Here"
+                title="Search here"
+              />
+            </form>
+
+            <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                id="UserDropdown"
+                href="#"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  class="img-xs rounded-circle ml-2"
+                  src="{% static 'seller/images/faces/face16.jpg' %}"
+                  alt="Profile image"
+                />
+                <span class="font-weight-normal">{{user.fname}}</span></a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                aria-labelledby="UserDropdown">
+                <div class="dropdown-header text-center">
+                  <img
+                    class="img-md rounded-circle"
+                    src="{% static 'seller/images/faces/face16.jpg' %}"
+                    alt="Profile image"
+                  />
+                  <p class="mb-1 mt-3">{{user.fname}}</p>
+                  <p class="font-weight-light text-muted mb-0">
+                    {{user.email}}
+                  </p>
+                </div>
+
+                <a class="dropdown-item" href="{% url 'logout' %}"
+                  ><i class="dropdown-item-icon icon-power text-primary"></i
+                  >Signout</a
+                >
+              </div>
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button"
+            data-toggle="offcanvas"
+          >
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item nav-profile">
+              <a href="#" class="nav-link">
+                <div class="profile-image">
+                  <img
+                    class="img-xs rounded-circle"
+                    src="#"
+                    alt="profile image"
+                  />
+                  <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper">
+                  <p class="profile-name">Doctor</p>
+                  <p class="designation">Administrator</p>
+                </div>
+
+              </a>
+            </li>
+            <li class="nav-item nav-category">
+              <span class="nav-link">Dashboard</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'doctor' %}">
+                <span class="menu-title">Dashboard</span>
+                <i class="icon-screen-desktop menu-icon"></i>
+              </a>
+            </li>
+
+            <li class="nav-item nav-category">
+              <span class="nav-link">Manage</span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="addproduct" href="{% url 'addproduct' %}">
+                <span class="menu-title">Add Blog post</span>
+                <i class="icon-globe menu-icon"></i>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'vieworders' %}">
+                <span class="menu-title">View blog posts</span>
+                <i class="icon-globe menu-icon"></i>
+              </a>
+            </li>
+
+
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row purchace-popup">
+              <div class="col-12 stretch-card grid-margin">
+                <div class="card card-secondary">
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 grid-margin stretch-card">
+
+              </div>
+              <div class="col-md-8 grid-margin stretch-card">
+
+              </div>
+            </div>
+            <!-- Quick Action Toolbar Starts-->
+            <div class="row quick-action-toolbar">
+              <div class="col-md-12 grid-margin">
+
+              </div>
+            </div>
+            <!-- Quick Action Toolbar Ends-->
+            <div class="row">
+              <div class="col-md-12 grid-margin">
+                <div class="card"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 grid-margin">
+                <div class="card"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-sm-flex align-items-center mb-4">
+                      <h4 class="card-title mb-sm-0">Doctor Details</h4>
+                    </div>
+                    <div class="table-responsive border rounded p-1">
+                      <table class="table">
+                        <tbody>
+
+                          <tr>
+                            <th class="font-weight-bold">Name of the Doctor:</th>
+                            <td>{{user.fname}}{{user.lname}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">Username:</th>
+                            <td>{{user.username}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">Email ID:</th>
+                            <td>{{user.email}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">Phone Number:</th>
+                            <td>{{user.phone_number}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">Address:</th>
+                            <td>{{user.Addres}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">City:</th>
+                            <td>{{user.city}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">State:</th>
+                            <td>{{user.state}}</td>
+                          </tr>
+                          <tr>
+                            <th class="font-weight-bold">Pin:</th>
+                            <td>{{user.pin}}</td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div
+              class="d-sm-flex justify-content-center justify-content-sm-between"
+            ></div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'seller/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'seller/vendors/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'seller/vendors/moment/moment.min.js' %}"></script>
+    <script src="{% static 'seller/vendors/daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'seller/vendors/chartist/chartist.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'seller/js/off-canvas.js' %}"></script>
+    <script src="{% static 'seller/js/misc.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'seller/js/dashboard.js' %}"></script>
+    <!-- End custom js for this page -->
+    <script>
+      function myfunction() {
+        alert("hi");
+      }
+    </script>
+  </body>
+</html>

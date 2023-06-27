@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Post</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh; /* Ensure the body takes up the full viewport height */
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #003366;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .image-section {
+            margin-top: 20px;
+        }
+
+        .image-section img {
+            max-width: 20px
+            height: 20px;
+        }
+    </style>
+
+    <script>
+    function toggleSummary(blogpostId) {
+        var summary = document.getElementById('summary' + blogpostId);
+        var fullSummary = document.getElementById('fullSummary' + blogpostId);
+        var button = document.getElementById('button' + blogpostId);
+
+        if (summary.style.display === 'none') {
+            summary.style.display = 'block';
+            fullSummary.style.display = 'none';
+            button.innerText = 'Read More';
+        } else {
+            summary.style.display = 'none';
+            fullSummary.style.display = 'block';
+            button.innerText = 'Read Less';
+        }
+    }
+</script>
+</head>
+<body>
+    <div class="sidebar">
+        <img class="img-xs rounded-circle ml-2" src="{% static 'seller/images/faces/face16.jpg' %}" alt="Profile image" />
+        <li><a href="">Profile</a></li>
+        <h1>Patient Dashboard</h1>
+        <ul>
+            <!-- Add more dashboard links as needed -->
+        </ul>
+    </div>
+
+    <div class="content">
+        <div style="position: relative;">
+            <a href="{% url 'logout' %}" style="position: absolute; top: 20px; right: 20px;">Logout</a>
+        </div>
+        <h2>Welcome, {{user.lname}}!</h2>
+        <h1>Doctor's Blog Posts</h1>
+
+        {% for category in categories %}
+    <h2>{{ category.name }}</h2>
+    <ul>
+        {% for blogpost in blogposts %}
+            {% if blogpost.category == category %}
+                <li>
+                    <h3>{{ blogpost.title }}</h3>
+                    {% if blogpost.image %}
+                        <img src="{{ blogpost.image.url }}" style="width:300px;height:200px;" alt="Blog Image">
+                    {% endif %}
+                    {% if blogpost.summary|wordcount > 15 %}
+                        <p id="summary{{ forloop.counter }}">{{ blogpost.summary|truncatewords:15 }}</p>
+                        <p id="fullSummary{{ forloop.counter }}" style="display: none;">{{ blogpost.summary }}</p>
+                        <button onclick="toggleSummary({{ forloop.counter }})">Read More</button>
+                    {% else %}
+                        <p>{{ blogpost.summary }}</p>
+                    {% endif %}
+
+                    <!-- Add other relevant blog post details as needed -->
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+
+        <!-- Add more sections or customize the existing ones as needed -->
+    </div>
+</body>
+</html>

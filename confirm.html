@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctors List</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #003366;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function toggleSummary(blogpostId) {
+            var summary = document.getElementById('summary' + blogpostId);
+            var fullSummary = document.getElementById('fullSummary' + blogpostId);
+            var button = document.getElementById('button' + blogpostId);
+
+            if (summary.style.display === 'none') {
+                summary.style.display = 'block';
+                fullSummary.style.display = 'none';
+                button.innerText = 'Read More';
+            } else {
+                summary.style.display = 'none';
+                fullSummary.style.display = 'block';
+                button.innerText = 'Read Less';
+            }
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div>
+            <a href="{% url 'logout' %}" style="position: absolute; top: 20px; right: 20px;">Logout</a>
+        </div>
+</header>
+    <div class="sidebar">
+        <img class="img-xs rounded-circle ml-2" src="{{user.image.url}}" alt="Profile image" />
+        <h1>Patient Dashboard</h1>
+        <ul>
+            <li><a href="{% url 'doctorlist' %}" style="color: black;">Doctors Available</a></li>
+            <li><a href="{% url 'patient' %}" style="color: black;">View Blogpost</a></li>
+            <li><a href="{% url 'confirm' %}" style="color: black;">View Appointments</a></li>
+
+            <!-- Add more sidebar links as needed -->
+        </ul>
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+            <h4 class="card-title">Your Appointment</h4>
+            <table>
+            <tr>
+                <th>Name of the Doctor</th>
+                <th>Appointment Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+
+            </tr>
+            {% for appointment in doctors %}
+            <tr>
+                <td>{{ appointment.doctor.fname }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.start_time }}</td>
+
+                <td>{{ appointment.end_time }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        </div>
+    </div>
+</body>
+</html>

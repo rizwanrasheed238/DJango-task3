@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctors List</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #003366;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #003366;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function toggleSummary(blogpostId) {
+            var summary = document.getElementById('summary' + blogpostId);
+            var fullSummary = document.getElementById('fullSummary' + blogpostId);
+            var button = document.getElementById('button' + blogpostId);
+
+            if (summary.style.display === 'none') {
+                summary.style.display = 'block';
+                fullSummary.style.display = 'none';
+                button.innerText = 'Read More';
+            } else {
+                summary.style.display = 'none';
+                fullSummary.style.display = 'block';
+                button.innerText = 'Read Less';
+            }
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div>
+            <a href="{% url 'logout' %}" style="position: absolute; top: 20px; right: 20px;">Logout</a>
+        </div>
+</header>
+    <div class="sidebar">
+        <img class="img-xs rounded-circle ml-2" src="{% static 'seller/images/faces/face16.jpg' %}" alt="Profile image" />
+        <h1>Patient Dashboard</h1>
+        <ul>
+            <li><a href="{% url 'doctorlist' %}" style="color: black;">Doctors Available</a></li>
+            <li><a href="{% url 'patient' %}" style="color: black;">View Blogpost</a></li>
+            <li><a href="{% url 'confirm' %}" style="color: black;">View Appointments</a></li>
+
+            <!-- Add more sidebar links as needed -->
+        </ul>
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+            <h4 class="card-title">Book an Appointment</h4>
+            <form class="forms-sample" method="POST" action="{% url 'booktoken' id=doctor.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="speciality">Required Speciality</label>
+                    <select class="form-control" name="speciality" id="speciality">
+                        <option>ENT</option>
+                        <option>Ob-gyn</option>
+                        <option>Orthopedic</option>
+                        <option>Gynecologist</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="start_time">Time</label>
+                    <input type="time" id="start_time" name="start_time" required>
+                </div>
+
+                <button type="submit" id="submit" class="btn btn-primary mr-2">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
